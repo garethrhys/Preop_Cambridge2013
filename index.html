@@ -14,20 +14,55 @@
 
       <h1>{{title}}</h1>
 
-      <form name="form" role="form" ng-hide="finished" novalidate>
+      <form name="form" role="form" novalidate ng-hide="finished">
+        <div ng-include src="'patient-details'">
+        </div>
         <div ng-repeat="question in activeQuestions track by $index" ng-form="questionForm" ng-include src="'question'"></div>
-        <button class="btn btn-primary" ng-click="next()">Next &raquo;</button>
+        <button class="btn btn-primary" ng-hide="readyToSend" ng-click="next()">Next &raquo;</button>
+        <div ng-show="readyToSend" ng-include src="'send'"></div>
       </form>
 
       <div ng-show="finished">
-        <h2>Finished</h2>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Form sent</h3>
+          </div>
+          <div class="panel-body">
+            <p>Thanks for completing this questionnaire.</p>
+            <p>You doctor will be in touch soon.</p>
+          </div>
+        </div>
+        
         <pre>{{ output | json }}</pre>
-        <pre>{{ encrypted | json }}</pre>
+        <pre>{{ encrypted }}</pre>
       </div>
 
     </div>
 
+    <script id="patient-details" type="text/ng-template">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Patient details</h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label for="patient-id">Patient number</label>
+          <input type="text" id="patient-id" class="form-control" ng-model="patient.number" required autofocus />
+        </div>
+        <div class="form-group">
+          <label for="patient-name">Patient name</label>
+          <input type="text" id="patient-name" class="form-control" ng-model="patient.name" required />
+        </div>
+        <div class="form-group">
+          <label for="patient-dob">Patient date of birth</label>
+          <input type="text" id="patient-dob" class="form-control" ng-model="patient.dateOfBirth" required placeholder="dd/mm/yyyy"/>
+        </div>
+      </div>
+    </div>
+    </script>
+
       <script id="question" type="text/ng-template">
+        <a id="{{question.id}}"></a>
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">{{question.text}}</h3>
@@ -35,7 +70,7 @@
           <div class="panel-body">
             <div class="form-group" ng-include src="question.type"></div>
             <div class="form-group pull-right" ng-show="allowComments(question)">
-              <a href="#" ng-click="addComments(question)" ng-hide="question.hasComments">Add extra information</a>
+              <a href="javascript:void(0)" ng-click="addComments(question)" ng-hide="question.hasComments">Add extra information</a>
             </div>
             <div class="form-group" ng-if="question.hasComments">
               <label>Extra information</label>
@@ -86,6 +121,19 @@
             {{choice.text}}
           </label>
         </div>
+      </script>
+
+      <script id="send" type="text/ng-template">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Ready to submit?</h3>
+        </div>
+        <div class="panel-body">
+          <p>Please review your answers, the click Send to Doctor to securely send them.</p>
+          <button class="btn btn-primary" ng-click="send()"><i class="glyphicon glyphicon-lock"></i> Send to Doctor</button>
+        </div>
+      </div>
+      <a id="send"></a>
       </script>
 
 <pre style="display:none" id="public-key">

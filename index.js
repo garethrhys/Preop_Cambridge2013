@@ -43,22 +43,28 @@ app.factory("publicKey", function() {
   return $("#public-key").text();
 });
 
-app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publicKey", function($scope, questionData, $parse, publicKey) {
+app.controller(
+  "QuestionsController",
+  ["$scope", "$anchorScroll", "$location", "$timeout", "questionData", "$parse", "encrypt",
+  function($scope, $anchorScroll, $location, $timeout, questionData, $parse, encrypt) {
 
   var remainingQuestions = questionData.questions.slice(0); // copy the questions array so we destructive update it
   var activeQuestions = [];
 
-  activeQuestions.push(remainingQuestions.shift());
-
   $scope.title = questionData.title;
+  $scope.patient = {};
   $scope.activeQuestions = activeQuestions;
 
   $scope.next = function() {
     var nextQuestion = findNextQuestion();
     if (nextQuestion) {
       $scope.activeQuestions.push(nextQuestion);
+      $timeout(function() {
+        $location.hash(nextQuestion.id.toString());
+        $anchorScroll();
+      });
     } else {
-      finished();
+      readyToSend();
     }
   };
 
@@ -72,6 +78,10 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publ
 
   $scope.cancelComments = function(question) {
     question.hasComments = false;
+  };
+
+  $scope.send = function() {
+    finished();
   };
 
   function findNextQuestion() {
@@ -95,6 +105,12 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publ
     });
 
     return condition({ q: answers });
+  }
+
+  function readyToSend() {
+    $scope.readyToSend = true;
+    $location.hash("send");
+    $anchorScroll();
   }
 
   function finished() {
@@ -148,29 +164,32 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publ
       }
     });
 
-      flags = [].concat.apply([], flags);
-
-
-    // TODO: post to relay server
+    // Flatten all flag arrays in one
+    flags = [].concat.apply([], flags);
 
     $scope.output = {
+      patient: $scope.patient,
       flags: flags,
       questions: questions
     };
 
-    $scope.encrypted = encryptData($scope.output);
+
+    $scope.encrypted = encrypt(JSON.stringify($scope.output));
+
+    // TODO: post to relay server
 
     $scope.finished = true;
+    $location.hash("");
   }
 
-  function encryptData(data) {
-    var json = JSON.stringify(data);
-
-    openpgp.init();
-    var pub_key = openpgp.read_publicKey(publicKey);
-    return openpgp.write_encrypted_message(pub_key,json);
-  }
+}]);
 
 
+app.factory("encrypt", ["publicKey", function(publicKey) {
+  openpgp.init();
+  var pub_key = openpgp.read_publicKey(publicKey);
+  return function(stringData) {
+    return openpgp.write_encrypted_message(pub_key, stringData);
+  };
 }]);
 
