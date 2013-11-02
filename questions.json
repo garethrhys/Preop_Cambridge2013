@@ -2,6 +2,16 @@
   "title" : "St Elsewhere's Hospital, Medical review before planned surgery",
   "questions": [
     {
+      "id": "gender",
+      "text": "Please select your gender",
+      "type": "radiolist",
+      "options": [
+          {"text":"Female"},
+          {"text":"Male"},
+          {"text":"Transgender"}
+        ]
+    },
+    {
       "id": "prev_op",
       "text": "Have you ever had an operation before?",
       "type": "boolean",
