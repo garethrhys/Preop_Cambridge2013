@@ -7,7 +7,7 @@ app.value("questionData",
     {
       id: 1,
       text: "Have you had an operation before?",
-      type: "boolean",
+      type: "text",
       hint: "Anything at all..."
     },
     {
@@ -39,8 +39,12 @@ app.value("questionData",
   ]
 });
 
-app.controller("QuestionsController", ["$scope", "questionData", "$parse", function($scope, questionData, $parse) {
-  
+app.factory("publicKey", function() {
+  return $("#public-key").text();
+});
+
+app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publicKey", function($scope, questionData, $parse, publicKey) {
+
   var remainingQuestions = questionData.questions.slice(0); // copy the questions array so we destructive update it
   var activeQuestions = [];
 
@@ -137,8 +141,20 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", funct
       flags: flags,
       questions: questions
     };
+
+    $scope.encrypted = encryptData($scope.output);
+
     $scope.finished = true;
   }
+
+  function encryptData(data) {
+    var json = JSON.stringify(data);
+
+    openpgp.init();
+    var pub_key = openpgp.read_publicKey(publicKey);
+    return openpgp.write_encrypted_message(pub_key,json);
+  }
+
 
 }]);
 
