@@ -1,73 +1,109 @@
 {
+  "title" : "St Elsewhere's Hospital, Medical review before planned surgery",
   "questions": [
     {
-      "id": "6",
+      "id": "prev_op",
       "text": "Have you ever had an operation before?",
       "type": "boolean",
       "hint": "This includes any procedure you have received under general or local anaesthetic."
     },
     {
-      "id": "7",
+      "id": "prev_op_date",
       "text": "When was your last operation?",
       "type": "text",
-      "conditions": [
-        "q[6]=== 'yes'"
-      ],
+      "conditions": "q.prev_op === 'yes'",
       "hint": "If you can remember, please provide a date. Otherwise provide the rough year or decade if possible."
     },
     {
-      "id": "8",
+      "id": "prev_anaesth_problem",
       "text": "Have you ever had problems with anaesthetics?",
       "type": "checklist",
-      "conditions": [
-        "q[6]=== 'yes'"
-      ],
+      "conditions": "q.prev_op === 'yes'",
       "options": [
-        "Nausea",
-        "Vomiting",
-        "Allergic Reaction",
-        "Other (Please provide further details)"
+        {"text": "Nausea"},
+        {"text": "Vomiting"},
+        {"text": "Allergic Reaction", "flag": "RED"},
+        {"text": "Other (Please provide further details)", "flag": "YELLOW"}
       ],
       "hint": "Any problems you had whilst having a general anaesthetic, local anaesthetic, spinal or epidural anaesthetic."
     },
     {
-      "id": "9",
+      "id": "relative_anaesth_problem",
       "text": "Have any of your blood-relatives ever had a reaction to anaesthetic?",
       "type": "boolean",
-      "hint": "This may be an allergic reaction to anaesthetic, or certain familial conditions (e.g. malignant hyperpyrexia or suxamethonium apnoea)."
+      "hint": "This may be an allergic reaction to anaesthetic, or certain familial conditions (e.g. malignant hyperpyrexia or suxamethonium apnoea).",
+      "flag": "YELLOW"
     },
     {
-      "id": "11",
+      "id": "allergies",
       "text": "Please list any known allergies you have?",
-      "type": "textarea",
-      "hint": "This may include allergies to medication, certain foodstuffs, or materials (e.g. latex)"
+      "type": "text",
+      "hint": "This may include allergies to medication, certain foodstuffs, or materials (e.g. latex)",
+      "flag": "ALLERGIES"
     },
     {
-      "id": "16",
+      "id": "respiratory_conditions",
       "text": "Do you have, or are you treated for any of the following conditions?",
       "type": "checklist",
+      "options": [
+       {"text": "Asthma"},
+        {"text": "COPD / Bronchitis / Emphysema"},
+        {"text": "Tuberculosis"},
+        {"text": "A persistent cough"}
+      ],
       "hint": ""
     },
     {
-      "id": "12",
+      "id": "smoking",
       "text": "Have you smoked at all in the last six months?",
       "type": "boolean",
       "hint": ""
     },
     {
-      "id": "13",
+      "id": "sob",
+      "text": "Do you get short of breath ...",
+      "type": "checklist",
+      "options": [
+        {"text": "At rest (e.g. whilst sitting in a chair)?", "flag": "RED",
+        "On exertion?",
+        "On lying flat?"
+      ],
+      "hint": ""
+    },
+    {
+      "id": "exercise_tolerance_stairs",
+      "text": "Can you walk up a full flight of stairs, at a normal adult pace, without stopping?",
+      "type": "radiolist",
+      "options": [
+        {"text": "Yes"},
+        {"text": "No", "flag": "RED"}
+        ],
+      "hint": "If you need to stop, please provide details of why this is so (e.g. shortness of breath, chest pains, leg pains)"
+    },
+    {
+      "id": "cardiac",
+      "text": "",
+      "type": "checklist",
+      "options": [
+        
+      ],
+      "hint": ""
+    },
+    {
+      "id": "alcohol",
       "text": "Do you ever drink alcohol?",
       "type": "boolean",
       "hint": "Either regularly or infrequently"
     },
     {
-      "id": "14",
+      "id": "alcohol_units",
       "text": "How many units of alcohol do you drink in an average week?",
       "type": "text",
-      "hint": "You may wish to use this online calculator to help you [URL: https:\/\/www.drinkaware.co.uk\/understand-your-drinking\/unit-calculator]"
+      "hint": "You may wish to use this online calculator to help you [URL: https:\/\/www.drinkaware.co.uk\/understand-your-drinking\/unit-calculator]",
+      "conditions": "q.alcohol==='yes'"
     },
     {
-      "id": "15",
+      "id": "transport",
       "text": "Do you have transport to get you to hospital?",
       "type": "boolean",
       "hint": ""
