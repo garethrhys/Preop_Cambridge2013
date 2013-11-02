@@ -11,14 +11,14 @@
       "id": "prev_op_date",
       "text": "When was your last operation?",
       "type": "text",
-      "conditions": "q.prev_op === 'yes'",
+      "condition": "q.prev_op === 'yes'",
       "hint": "If you can remember, please provide a date. Otherwise provide the rough year or decade if possible."
     },
     {
       "id": "prev_anaesth_problem",
       "text": "Have you ever had problems with anaesthetics?",
       "type": "checklist",
-      "conditions": "q.prev_op === 'yes'",
+      "condition": "q.prev_op === 'yes'",
       "options": [
         {"text": "Nausea"},
         {"text": "Vomiting"},
@@ -38,7 +38,7 @@
       "id": "allergies",
       "text": "Please list any known allergies you have?",
       "type": "text",
-      "hint": "This may include allergies to medication, certain foodstuffs, or materials (e.g. latex)",
+      "hint": "This may include allergies to medication, certain foodstuffs, or materials (e.g. latex, metals)",
       "flag": "ALLERGIES"
     },
     {
@@ -54,9 +54,26 @@
       "hint": ""
     },
     {
+      "id": "respiratory_severity",
+      "text": "Have you required hospital treatment for any of these conditions in the last 2 years?",
+      "type": "radiolist",
+      "options": [
+        {"text": "Yes", "flag": "RED"},
+        {"text": "No"},
+        {"text": "Not Sure", "flag": "YELLOW"}
+        ],
+      "condition": "q.respiratory_conditions",
+      "hint": ""
+    },
+    {
       "id": "smoking",
-      "text": "Have you smoked at all in the last six months?",
-      "type": "boolean",
+      "text": "Have you smoked in the last six months?",
+      "type": "radiolist",
+      "options": [
+        {"text": "Yes, every day"},
+        {"text": "Yes, but not every day"},
+        {"text": "No"}
+      ],
       "hint": ""
     },
     {
@@ -64,9 +81,9 @@
       "text": "Do you get short of breath ...",
       "type": "checklist",
       "options": [
-        {"text": "At rest (e.g. whilst sitting in a chair)?", "flag": "RED",
-        "On exertion?",
-        "On lying flat?"
+        {"text": "At rest (e.g. whilst sitting in a chair)?", "flag": "RED"},
+        {"text": "On exertion?"},
+        {"text": "On lying flat (without pillows)?"}
       ],
       "hint": ""
     },
@@ -81,19 +98,51 @@
       "hint": "If you need to stop, please provide details of why this is so (e.g. shortness of breath, chest pains, leg pains)"
     },
     {
+      "id": "exercise_tolerance_flat",
+      "text": "Could you walk half a mile, at a normal adult pace, on a flat surface?",
+      "type": "radiolist",
+      "options": [
+        {"text": "Yes"},
+        {"text": "No", "flag": "YELLOW"}
+        ],
+      "hint": "If not, please provide details of why this is so (e.g. shortness of breath, chest pains, spinal problems)"
+    },
+    {
       "id": "cardiac",
-      "text": "",
+      "text": "Do you, or have you ever had any of the following?",
       "type": "checklist",
       "options": [
-        
+        {"text":"High Blood Pressure (Hypertension)"},
+        {"text":"Chest Pains / Angina", "flag":"YELLOW"},
+        {"text":"A heart attack (MI)", "flag":"YELLOW"},
+        {"text":"Palpitations","flag":"YELLOW"},
+        {"text":"Irregular Heartbeat / Atrial Fibrillation", "flag":"YELLOW"},
+        {"text":"A Pacemaker", "flag":"YELLOW"}
       ],
       "hint": ""
     },
     {
+      "id": "anticoagulants",
+      "text": "Do you take any of the following medication?",
+      "type":"checklist",
+      "options": [
+        {"text":"Warfarin", "flag":"RED"},
+        {"text":"Aspirin", "flag":"YELLOW"},
+        {"text":"Clopidogrel", "flag":"YELLOW"},
+        {"text":"Rivaroxaban", "flag":"RED"},
+      ]
+    }
+    {
       "id": "alcohol",
       "text": "Do you ever drink alcohol?",
-      "type": "boolean",
-      "hint": "Either regularly or infrequently"
+      "type": "radiolist",
+      "options": [
+        {"text":"Yes, frequently"},
+        {"text":"Yes, occasionally"},
+        {"text":"Yes, rarely"},
+        {"text":"No"}
+        ],
+      "hint": ""
     },
     {
       "id": "alcohol_units",
