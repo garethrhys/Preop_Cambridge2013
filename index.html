@@ -18,7 +18,7 @@
         <div ng-include src="'patient-details'">
         </div>
         <div ng-repeat="question in activeQuestions track by $index" ng-form="questionForm" ng-include src="'question'"></div>
-        <button class="btn btn-primary" ng-hide="readyToSend" ng-click="next()">Next &raquo;</button>
+        <button class="btn btn-primary" ng-hide="readyToSend || !gotQuestions" ng-click="next()">Next &raquo;</button>
         <div ng-show="readyToSend" ng-include src="'send'"></div>
       </form>
 
@@ -104,21 +104,21 @@
         <input type="text" class="form-control" ng-model="question.answer" required/>
       </script>
 
-      <script id="single-choice" type="text/ng-template">
-        <div class="radio" ng-repeat="choice in question.choices">
+      <script id="radiolist" type="text/ng-template">
+        <div class="radio" ng-repeat="option in question.options">
           <label>
-            <input type="radio" name="{{question.id}}" value="{{choice.id}}" ng-model="question.answer" />
-            {{choice.text}}
+            <input type="radio" name="{{question.id}}" value="{{option.text}}" ng-model="question.answer" />
+            {{option.text}}
           </label>
         </div>
         <input type="hidden" name="{{question.id}}" ng-model="question.answer" required/>
       </script>
 
-      <script id="multi-choice" type="text/ng-template">
-        <div class="checkbox" ng-repeat="choice in question.choices">
+      <script id="checklist" type="text/ng-template">
+        <div class="checkbox" ng-repeat="option in question.options">
           <label>
-            <input type="checkbox" value="{{choice.id}}" ng-model="choice.selected" />
-            {{choice.text}}
+            <input type="checkbox" value="{{option.text}}" ng-model="option.selected" />
+            {{option.text}}
           </label>
         </div>
       </script>
