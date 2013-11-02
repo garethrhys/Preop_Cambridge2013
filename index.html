@@ -1,0 +1,75 @@
+<!doctype html>
+
+<html>
+  <head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
+    <script src="index.js"></script>
+  </head>
+  <body ng-app="app">
+
+    <div class="container" ng-controller="QuestionsController">
+
+      <h1>{{title}}</h1>
+
+      <form name="form" role="form" ng-hide="finished" novalidate>
+        <div ng-repeat="question in activeQuestions track by $index" ng-form="questionForm" ng-include src="'question'"></div>
+        <button class="btn btn-primary" ng-click="next()">Next &raquo;</button>
+      </form>
+
+      <div ng-show="finished">
+        <h2>Finished</h2>
+        <pre>{{ output | json }}</pre>
+      </div>
+
+    </div>
+
+      <script id="question" type="text/ng-template">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{question.text}}</h3>
+          </div>
+          <div class="panel-body" ng-include src="question.type"></div>
+          <div class="panel-footer text-muted" ng-if="question.hint">
+            <i class="glyphicon glyphicon-info-sign"></i> {{question.hint}}
+          </div>
+        </div>
+      </script>
+
+      <script id="boolean" type="text/ng-template">
+        <div class="radio">
+          <label><input name="{{question.id}}" type="radio" value="yes" ng-model="question.answer" /> Yes</label>
+        </div>
+        <div class="radio">
+          <label><input name="{{question.id}}" type="radio" value="no" ng-model="question.answer" /> No</label>
+        </div>
+        <input type="hidden" ng-model="question.answer" required />
+      </script>
+
+      <script id="text" type="text/ng-template">
+        <input type="text" ng-model="question.answer" required/>
+      </script>
+
+      <script id="single-choice" type="text/ng-template">
+        <div class="radio" ng-repeat="choice in question.choices">
+          <label>
+            <input type="radio" name="{{question.id}}" value="{{choice.id}}" ng-model="question.answer" />
+            {{choice.text}}
+          </label>
+        </div>
+        <input type="hidden" name="{{question.id}}" ng-model="question.answer" required/>
+      </script>
+
+      <script id="multi-choice" type="text/ng-template">
+        <div class="checkbox" ng-repeat="choice in question.choices">
+          <label>
+            <input type="checkbox" value="{{choice.id}}" ng-model="choice.selected" />
+            {{choice.text}}
+          </label>
+        </div>
+      </script>
+
+    </body>
+
+  </html>
+
