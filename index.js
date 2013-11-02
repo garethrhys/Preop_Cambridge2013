@@ -7,7 +7,7 @@ app.value("questionData",
     {
       id: 1,
       text: "Have you had an operation before?",
-      type: "text",
+      type: "boolean",
       hint: "Anything at all..."
     },
     {
@@ -62,6 +62,18 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publ
     }
   };
 
+  $scope.allowComments = function(question) {
+    return question.type !== "text" && question.type !== "singleline-text";
+  };
+
+  $scope.addComments = function(question) {
+    question.hasComments = true;
+  };
+
+  $scope.cancelComments = function(question) {
+    question.hasComments = false;
+  };
+
   function findNextQuestion() {
     var next = remainingQuestions.filter(function(q) {
       return isConditionMet(q);
@@ -95,11 +107,15 @@ app.controller("QuestionsController", ["$scope", "questionData", "$parse", "publ
       } else {
         answer = q.answer
       }
-      return {
+      var output = {
         id: q.id,
         question: q.text,
         answer: answer
       };
+      if (q.comments) {
+        output.comments = q.comments;
+      }
+      return output;
     });
 
     var flags = activeQuestions.map(function(q) {

@@ -32,7 +32,19 @@
           <div class="panel-heading">
             <h3 class="panel-title">{{question.text}}</h3>
           </div>
-          <div class="panel-body" ng-include src="question.type"></div>
+          <div class="panel-body">
+            <div class="form-group" ng-include src="question.type"></div>
+            <div class="form-group pull-right" ng-show="allowComments(question)">
+              <a href="#" ng-click="addComments(question)" ng-hide="question.hasComments">Add extra information</a>
+            </div>
+            <div class="form-group" ng-if="question.hasComments">
+              <label>Extra information</label>
+              <textarea class="form-control" ng-model="question.comments" ng-show="question.hasComments" autofocus placeholder="Add anything extra that may be relevant"></textarea>
+            </div>
+            <div class="form-group pull-right" ng-if="question.hasComments">
+              <button class="btn btn-xs btn-default" ng-click="cancelComments(question)">Remove comment</button>
+            </div>
+          </div>
           <div class="panel-footer text-muted" ng-if="question.hint">
             <i class="glyphicon glyphicon-info-sign"></i> {{question.hint}}
           </div>
@@ -50,11 +62,11 @@
       </script>
 
       <script id="text" type="text/ng-template">
-        <input type="text" class="form-control" ng-model="question.answer" required/>
+        <textarea class="form-control" rows="10" ng-model="question.answer" required></textarea>
       </script>
 
-      <script id="multiline-text" type="text/ng-template">
-        <textarea class="form-control" rows="10" ng-model="question.answer" required></textarea>
+      <script id="singleline-text" type="text/ng-template">
+        <input type="text" class="form-control" ng-model="question.answer" required/>
       </script>
 
       <script id="single-choice" type="text/ng-template">
