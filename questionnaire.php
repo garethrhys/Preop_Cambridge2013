@@ -1,43 +1,30 @@
 <?php
-
 $public_key = file_get_contents('./public.key');
-
+$questionnaire = file_get_contents('./questions.json');
 ?>
-
 <!doctype html>
 
-<html>
+<html ng-app="app">
   <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/questions.json" rel="questionnaire">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="openpgp.min.js"></script>
     <script src="app.js"></script>
     <script src="Questionnaire.js"></script>
     <script src="QuestionnaireController.js"></script>
-    <script src="AppController.js"></script>
     <script src="reportGenerator.js"></script>
+    <title>Questionnaire</title>
   </head>
-  <body ng-app="app" ng-controller="AppController">
+  <body>
 
-    <div ng-if="!questionnaire">Loading...</div>
+    <div class="container" ng-controller="QuestionnaireController as qc">
 
-    <div class="alert alert-error" ng-if="appError">
-      {{appError}}
-    </div>
-
-    <div ng-if="questionnaire" class="container" ng-controller="QuestionnaireController as qc">
-
-      <h2>{{questionnaire.title}}</h2>
-      <p class="well">
-    Please complete this questionnaire as fully and accurately as possible. Inaccurate information may result in your operation being delayed or cancelled. If you wish to provide further information specific to any question, click the 'Add extra information' link. Once completed, your information will be sent encrypted to the hospital, where it will be reviewed by medical staff. We will contact you if you need to attend a pre-admission clinic before the day of your surgery.<br/>
-    If you have any difficulties completing this questionnaire, please ring 01234 567890
-    </p>
+      <h1>{{qc.questionnaire.title}}</h1>
 
       <form name="form" role="form" novalidate ng-hide="qc.sent">
         <div ng-include src="'patient-details'"></div>
-        <div ng-repeat="question in questionnaire.questions | filter:qc.isAsked track by $index "
+        <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index "
              ng-form="questionForm"
              ng-include src="'question'"></div>
         <button class="btn btn-primary" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
@@ -65,11 +52,11 @@ $public_key = file_get_contents('./public.key');
     <script id="patient-details" type="text/ng-template">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Your details</h3>
+          <h3 class="panel-title">Patient details</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label for="patient-id">Patient number<br/><small>(You can find this on the letter we sent you)</small></label>
+            <label for="patient-id">Patient number</label>
             <input type="text" id="patient-id" class="form-control" ng-model="patient.number" required autofocus />
           </div>
           <div class="form-group">
@@ -171,9 +158,8 @@ $public_key = file_get_contents('./public.key');
       </div>
     </script>
 
-    <script id="public-key" type="text/plain">
-      <?php echo $public_key; ?>
-    </script>
+    <script id="questionnaire-definition" type="text/plain"><?php echo $questionnaire; ?></script>
+    <script id="public-key" type="text/plain"><?php echo $public_key; ?></script>
   </body>
 </html>
 

@@ -1,10 +1,14 @@
-function QuestionnaireController($scope, $http, $location, $anchorScroll, $timeout, encrypt) {
+function QuestionnaireController(questionnaire, $http, $location, $anchorScroll, $timeout, encrypt, reportGenerator, $sce) {
+  this.questionnaire = questionnaire;
   this.$timeout = $timeout;
+  this.$http = $http;
   this.$location = $location;
   this.$anchorScroll = $anchorScroll;
   this.encrypt = encrypt;
+  this.reportGenerator = reportGenerator;
+  this.$sce = $sce;
 
-  this.questionnaire = $scope.questionnaire;
+  document.title = questionnaire.title;
 }
 
 angular.extend(QuestionnaireController.prototype, {
@@ -40,24 +44,25 @@ angular.extend(QuestionnaireController.prototype, {
 
   send: function() {
     var report = this.questionnaire.report();
-    // TODO: Build report document text
-    // plain text, HTML, PDF?
-    var encryptedReportJson = this.encrypt(JSON.stringify(report));
+    this.reportGenerator(report).then(function(reportHtml) {
+      var encryptedReport = this.encrypt(reportHtml);
 
-    // TODO: Post report document to email relay server
-    this.report = report;
-    this.encryptedReportJson = encryptedReportJson;
+      this.$http.post("/send.php", encryptedReport);
 
-    this.sent = true;
-    this.$location.hash("sent");
-    this.$anchorScroll();
+      this.report = this.$sce.trustAsHtml(reportHtml);
+      this.encryptedReport = encryptedReport;
+
+      this.sent = true;
+      this.$location.hash("sent");
+      this.$anchorScroll();
+    }.bind(this));
   }
 
 });
 
 app.controller(
   "QuestionnaireController",
-  [ "$scope", "$http", "$location", "$anchorScroll", "$timeout", "encrypt",
+  [ "questionnaire", "$http", "$location", "$anchorScroll", "$timeout", "encrypt", "reportGenerator", "$sce",
   QuestionnaireController]
 );
 
