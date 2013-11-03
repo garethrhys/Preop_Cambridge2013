@@ -15,6 +15,16 @@ $questionnaire = file_get_contents('./questions.json');
     <script src="QuestionnaireController.js"></script>
     <script src="reportGenerator.js"></script>
     <title>Questionnaire</title>
+    <style type="text/css">
+	body {
+    background-color: #D4D4D4;
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+}
+</style>
   </head>
   <body>
 
