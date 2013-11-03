@@ -162,7 +162,7 @@
       "id": "alcohol_units",
       "text": "How many units of alcohol do you drink in an average week?",
       "type": "text",
-      "hint": "You may wish to use this online calculator to help you [URL: https:\/\/www.drinkaware.co.uk\/understand-your-drinking\/unit-calculator]",
+      "hint": "You may wish to use this online calculator to help you https://www.drinkaware.co.uk/understand-your-drinking/unit-calculator",
       "conditions": "q.alcohol==='yes'"
     },
     {

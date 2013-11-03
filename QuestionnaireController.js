@@ -45,7 +45,7 @@ angular.extend(QuestionnaireController.prototype, {
   send: function() {
     var report = this.questionnaire.report();
     this.reportGenerator(report).then(function(reportHtml) {
-      var encryptedReport = this.encrypt(reportHtml);
+      var encryptedReport = this.encrypt(reportHtml).replace(/\r/g, "");
 
       this.$http.post("/send.php", encryptedReport);
 

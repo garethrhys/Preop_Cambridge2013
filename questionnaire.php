@@ -8,6 +8,7 @@ $questionnaire = file_get_contents('./questions.json');
   <head>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular-sanitize.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="openpgp.min.js"></script>
     <script src="app.js"></script>
@@ -20,8 +21,6 @@ $questionnaire = file_get_contents('./questions.json');
     background-color: #D4D4D4;
     color: #333333;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 12px;
-    line-height: 16px;
     margin: 0;
 }
 </style>
@@ -44,7 +43,7 @@ $questionnaire = file_get_contents('./questions.json');
              ng-form="questionForm"
              ng-include src="'question'"></div>
         <div class="form-group">
-          <button class="btn btn-primary" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
+          <button class="btn btn-primary btn-lg center-block" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
         </div>
         <div ng-show="qc.readyToSend" ng-include src="'send'"></div>
       </form>
@@ -107,7 +106,7 @@ $questionnaire = file_get_contents('./questions.json');
           </div>
         </div>
         <div class="panel-footer text-muted" ng-if="question.hint">
-          <i class="glyphicon glyphicon-info-sign"></i> {{question.hint}}
+          <i class="glyphicon glyphicon-info-sign"></i> <span ng-bind-html="question.hint | linky:'_blank'"></span>
         </div>
       </div>
     </script>
