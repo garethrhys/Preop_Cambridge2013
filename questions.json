@@ -139,9 +139,9 @@
         {"text":"Warfarin", "flag":"RED"},
         {"text":"Aspirin", "flag":"YELLOW"},
         {"text":"Clopidogrel", "flag":"YELLOW"},
-        {"text":"Rivaroxaban", "flag":"RED"},
+        {"text":"Rivaroxaban", "flag":"RED"}
       ]
-    }
+    },
     {
       "id": "alcohol",
       "text": "Do you ever drink alcohol?",
