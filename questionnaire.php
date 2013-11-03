@@ -20,7 +20,11 @@ $questionnaire = file_get_contents('./questions.json');
 
     <div class="container" ng-controller="QuestionnaireController as qc">
 
-      <h1>{{qc.questionnaire.title}}</h1>
+      <h1>{{qc.questionnaire.title}}</h2>
+      <p class="well">
+    Please complete this questionnaire as fully and accurately as possible. Inaccurate information may result in your operation being delayed or cancelled. If you wish to provide further information specific to any question, click the 'Add extra information' link. Once completed, your information will be sent encrypted to the hospital, where it will be reviewed by medical staff. We will contact you if you need to attend a pre-admission clinic before the day of your surgery.<br/>
+    If you have any difficulties completing this questionnaire, please ring 01234 567890
+    </p>
 
       <form name="form" role="form" novalidate ng-hide="qc.sent">
         <div ng-include src="'patient-details'"></div>
@@ -42,9 +46,6 @@ $questionnaire = file_get_contents('./questions.json');
             <p>You doctor will be in touch soon.</p>
           </div>
         </div>
-        
-        <div ng-bind-html="qc.report"></div>
-        <pre>{{ qc.encryptedReport }}</pre>
       </div>
 
     </div>
