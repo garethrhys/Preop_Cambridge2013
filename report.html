@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
 <div class="row">
 <div class="col-md-12">
 <h2>Pre-operative Assessment Patient-submitted report</h2>
@@ -15,28 +16,43 @@
 </div>
 <div class="row">
 <div class="col-md-6">
-<span class="patient-item" id="patient-name">Name - Mr Joseph Bloggs</span>
-<span class="patient-item" id="patient-id">Patient ID - A123456Z</span>
-<span class="patient-item" id="patient-dob">Date of Birth - 01/01/1950</span>
+<div class="well">
+<span id="patient-name">Name - Mr Joseph Bloggs</span><br/>
+<span id="patient-id">Patient ID - A123456Z</span><br/>
+<span id="patient-dob">Date of Birth - 01/01/1950</span>
+</div>
 </div>
 <div class="col-md-6">
+<div class="well">
 <span class="patient-item" id="patient-name">Questionnaire Submitted - 03/11/2013</span>
 </div>
 </div>
-<div class="row alert alert-danger" id="redflag">
+</div>
+<div class="row" id="redflag">
 <div class="col-md-12">
-Do you get short of breath ... - At rest (e.g. whilst sitting in a chair)
-<div class="allergies">
+<div class="alert alert-danger">
+<h4>The following items demand review</h4>
+<ul>
+<li>Do you get short of breath ... - At rest (e.g. whilst sitting in a chair)</li>
+</ul>
+<p class="allergies"><br/>
 <b>Allergies</b> - None
+</p>
 </div>
 </div>
 </div>
-<div class="row alert alert-warning" id="yellowflag">
+<div class="row" id="yellowflag">
 <div class="col-md-12">
-Have any of your blood-relatives ever had a reaction to anaesthetic? - YES
+<div class="alert alert-warning">
+<h4>The following items may require further review</h4>
+<ul>
+<li>Have any of your blood-relatives ever had a reaction to anaesthetic? - YES</li>
+</ul>
 </div>
 </div>
-<div class="fullreport">
+</div>
+<div class="fullreport well">
+<h4>All responses</h4>
 <div class="question">
 <div class="question-text">
 Have you ever had an operation before?
@@ -46,6 +62,7 @@ YES
 </div>
 <div class="answer-text">
 I have added an additional comment here.
+</div>
 </div>
 </div>
 </div>
