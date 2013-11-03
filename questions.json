@@ -9,7 +9,8 @@
           {"text":"Female"},
           {"text":"Male"},
           {"text":"Transgender"}
-        ]
+        ],
+      "required": true
     },
     {
       "id": "prev_op",
