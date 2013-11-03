@@ -9,6 +9,7 @@ $questionnaire = file_get_contents('./questions.json');
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.min.js"></script>
     <script src="http://code.angularjs.org/1.2.0-rc.3/angular-sanitize.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.0-rc.3/angular-animate.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="openpgp.min.js"></script>
     <script src="app.js"></script>
@@ -17,13 +18,36 @@ $questionnaire = file_get_contents('./questions.json');
     <script src="reportGenerator.js"></script>
     <title>Questionnaire</title>
     <style type="text/css">
-	body {
-    background-color: #D4D4D4;
-    color: #333333;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    margin: 0;
-}
-</style>
+    body {
+      background-color: #D4D4D4;
+      color: #333333;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+      margin: 0;
+    }
+
+    .question.ng-enter, .question.ng-leave {
+      -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+      -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+      -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+      transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
+
+    .question.ng-enter {
+      opacity:0;
+    }
+
+    .question.ng-enter.ng-enter-active {
+      opacity:1;
+    }
+
+    .question.ng-leave {
+      opacity:1;
+    }
+
+    .question.ng-leave.ng-leave-active {
+      opacity:0;
+    }
+  </style>
   </head>
   <body>
 
@@ -41,7 +65,7 @@ $questionnaire = file_get_contents('./questions.json');
         <div ng-include src="'patient-details'"></div>
         <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index "
              ng-form="questionForm"
-             ng-include src="'question'"></div>
+             ng-include src="'question'" class="question"></div>
         <div class="form-group">
           <button class="btn btn-primary btn-lg center-block" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
         </div>

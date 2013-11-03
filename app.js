@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngSanitize"]);
+var app = angular.module("app", ["ngSanitize", "ngAnimate"]);
 
 app.factory("publicKey", function() {
   return $("#public-key").text();
