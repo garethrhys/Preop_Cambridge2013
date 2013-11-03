@@ -31,11 +31,11 @@ $questionnaire = file_get_contents('./questions.json');
     <div class="container" ng-controller="QuestionnaireController as qc">
 
       <h1>{{qc.questionnaire.title}}</h2>
-      <p class="well">
+      <p class="well" ng-hide="qc.sent">
     Please complete this questionnaire as fully and accurately as possible. Inaccurate information may result in your operation being delayed or cancelled. If you wish to provide further information specific to any question, click the 'Add extra information' link. Once completed, your information will be sent encrypted to the hospital, where it will be reviewed by medical staff. We will contact you if you need to attend a pre-admission clinic before the day of your surgery.<br/>
     If you have any difficulties completing this questionnaire, please ring 01234 567890
     </p>
-    <p class="alert alert-warning">
+    <p class="alert alert-warning" ng-hide="qc.sent">
     <b>NHS Hackday Cambridge 2013</b> - The question set is a small sample of those required in a production version. There is work to be done on validation, and the possibility of adding additional question types.
     </p>
       <form name="form" role="form" novalidate ng-hide="qc.sent">
@@ -43,7 +43,9 @@ $questionnaire = file_get_contents('./questions.json');
         <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index "
              ng-form="questionForm"
              ng-include src="'question'"></div>
-        <button class="btn btn-primary" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
+        <div class="form-group">
+          <button class="btn btn-primary" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
+        </div>
         <div ng-show="qc.readyToSend" ng-include src="'send'"></div>
       </form>
 

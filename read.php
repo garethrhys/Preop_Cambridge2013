@@ -13,9 +13,9 @@ $privateKey = file_get_contents('./private.key');
 </head>
 <body>
   <div class="container" ng-controller="ReaderController as reader">
-    <h1>Encrypted response reader</h1>
 
-    <form name="form" ng-submit="reader.decrypt()">
+    <form name="form" ng-submit="reader.decrypt()" ng-hide="reader.report">
+      <h1>Encrypted response reader</h1>
       <div class="form-group">
         <textarea ng-model="reader.encrypted" rows="10" class="form-control" placeholder="Paste encrypted questionnaire response here"></textarea>
       </div>
