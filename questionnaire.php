@@ -57,15 +57,15 @@ $questionnaire = file_get_contents('./questions.json');
         <div class="panel-body">
           <div class="form-group">
             <label for="patient-id">Patient number</label>
-            <input type="text" id="patient-id" class="form-control" ng-model="patient.number" required autofocus />
+            <input type="text" id="patient-id" class="form-control" ng-model="qc.questionnaire.patient.number" required autofocus />
           </div>
           <div class="form-group">
             <label for="patient-name">Patient name</label>
-            <input type="text" id="patient-name" class="form-control" ng-model="patient.name" required />
+            <input type="text" id="patient-name" class="form-control" ng-model="qc.questionnaire.patient.name" required />
           </div>
           <div class="form-group">
             <label for="patient-dob">Patient date of birth</label>
-            <input type="text" id="patient-dob" class="form-control" ng-model="patient.dateOfBirth" required placeholder="dd/mm/yyyy"/>
+            <input type="text" id="patient-dob" class="form-control" ng-model="qc.questionnaire.patient.dateOfBirth" required placeholder="dd/mm/yyyy"/>
           </div>
         </div>
       </div>
@@ -145,17 +145,6 @@ $questionnaire = file_get_contents('./questions.json');
         </div>
       </div>
       <a id="send"></a>
-    </script>
-
-    <script id="report" type="text/ng-template">
-      <div>
-        <h1>{{report.title}}</h1>
-        <ul>
-          <li ng-repeat="flag in report.flags">
-            {{flag.flag}}
-          </li>
-        </ul>
-      </div>
     </script>
 
     <script id="questionnaire-definition" type="text/plain"><?php echo $questionnaire; ?></script>

@@ -3,7 +3,7 @@
   function Questionnaire(title, questions, $parse) {
     this.title = title;
     this.patient = {
-      id: "",
+      number: "",
       name: "",
       dateOfBirth: ""
     };
@@ -48,12 +48,15 @@
       var flags = asked.map(function(q) { return q.flags(); });
       // Flatten array of arrays into array of simple objects.
       flags = [].concat.apply([], flags);
+      var redFlags = flags.filter(function(f) { return f.flag === "RED"; });
+      var yellowFlags = flags.filter(function(f) { return f.flag === "YELLOW"; })
 
       return {
         title: this.title,
         created: new Date(),
         patient: this.patient,
-        flags: flags,
+        redFlags: redFlags,
+        yellowFlags: yellowFlags,
         responses: responses
       };
     }
@@ -113,7 +116,8 @@
       if (this.type === "checklist") {
         return this.options
           .filter(function(option) { return option.selected; })
-          .map(function(option) { return option.text; });
+          .map(function(option) { return option.text; })
+          .join("; ");
       } else {
         return this.answer;
       }
@@ -125,7 +129,7 @@
           var flagged = this.options
             .filter(function(option) {
               return option.text === this.answer && option.flag;
-            })
+            }, this)
             [0];
 
           if (flagged) {
@@ -147,7 +151,7 @@
                 question: this.text,
                 answer: option.text
               };
-            });
+            }, this);
 
         default:
           return [];

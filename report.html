@@ -1,96 +1,61 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Patient Response</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
-</head>
-<body>
 <div class="container">
-<div class="row">
-<div class="col-md-12">
-<h2>Pre-operative Assessment Patient-submitted report</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Pre-operative Assessment Patient-submitted report</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="well">
+        <span id="patient-name">Name - {{report.patient.name}}</span><br/>
+        <span id="patient-id">Patient ID - {{report.patient.number}}</span><br/>
+        <span id="patient-dob">Date of Birth - {{report.patient.dateOfBirth | date:'d MMM yyyy'}}</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="well">
+        <span class="patient-item" id="patient-name">Questionnaire Submitted - {{report.created | date:'d MMM yyyy'}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="redflag" ng-if="report.redFlags.length">
+    <div class="col-md-12">
+      <div class="alert alert-danger">
+        <h4>The following items demand review</h4>
+        <ul>
+          <li ng-repeat="item in report.redFlags">
+          {{item.question}} - {{item.answer}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="yellowflag" ng-if="report.yellowFlags.length">
+    <div class="col-md-12">
+      <div class="alert alert-warning">
+        <h4>The following items may require further review</h4>
+        <ul>
+          <li ng-repeat="item in report.yellowFlags">
+          {{item.question}} - {{item.answer}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="fullreport well">
+    <h4>All responses</h4>
+    <p class="question" ng-repeat="response in report.responses">
+      <span class="question-text">
+        {{response.question}}
+      </span>
+      <br/>
+      <strong class="answer">
+        {{response.answer}}
+      </strong>
+      <br/>
+      <span class="answer-text" ng-if="response.comments">
+        {{response.comments}}
+      </span>
+    </p>
+  </div>
 </div>
-</div>
-<div class="row">
-<div class="col-md-6">
-<div class="well">
-<span id="patient-name">Name - Mr Joseph Bloggs</span><br/>
-<span id="patient-id">Patient ID - A123456Z</span><br/>
-<span id="patient-dob">Date of Birth - 01/01/1950</span>
-</div>
-</div>
-<div class="col-md-6">
-<div class="well">
-<span class="patient-item" id="patient-name">Questionnaire Submitted - 03/11/2013</span>
-</div>
-</div>
-</div>
-<div class="row" id="redflag">
-<div class="col-md-12">
-<div class="alert alert-danger">
-<h4>The following items demand review</h4>
-<ul>
-<li>Do you get short of breath ... - At rest (e.g. whilst sitting in a chair)</li>
-</ul>
-<p class="allergies"><br/>
-<b>Allergies</b> - None
-</p>
-</div>
-</div>
-</div>
-<div class="row" id="yellowflag">
-<div class="col-md-12">
-<div class="alert alert-warning">
-<h4>The following items may require further review</h4>
-<ul>
-<li>Have any of your blood-relatives ever had a reaction to anaesthetic? - YES</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="fullreport row">
-<div class="col-md-12">
-<h4>All responses</h4>
-<!-- Question -->
-<div class="question well">
-<div class="row">
-<div class="col-md-6 question-text">
-Have you ever had an operation before?
-</div>
-<div class="col-md-4 answer">
-YES
-</div>
-</div>
-<div class="answer-text row">
-<div class="col-md-8 col-md-offset-4">
-I have added an additional comment for this question.
-</div></div></div>
-<!-- End Question -->
-
-
-<!-- Question -->
-<div class="question well">
-<div class="row">
-<div class="col-md-6 question-text">
-This is a checklist
-</div>
-<div class="col-md-4 answer">
-<ul>
-<li>Selection 1</li>
-<li>Selection 2</li>
-<li>Selection 3</li>
-</ul>
-</div>
-</div>
-<div class="answer-text row">
-<div class="col-md-8 col-md-offset-4">
-I have added an additional comment for this question.
-</div></div></div>
-<!-- End Question -->
-</div>
-</div>
-</body>
-</html>

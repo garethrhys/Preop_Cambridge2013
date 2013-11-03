@@ -41,9 +41,12 @@
     {
       "id": "relative_anaesth_problem",
       "text": "Have any of your blood-relatives ever had a reaction to anaesthetic?",
-      "type": "boolean",
+      "type": "radiolist",
       "hint": "This may be an allergic reaction to anaesthetic, or certain familial conditions (e.g. malignant hyperpyrexia or suxamethonium apnoea).",
-      "flag": "YELLOW"
+      "options": [
+        { "text": "Yes", "flag": "YELLOW" },
+        { "text": "No" }
+      ]
     },
     {
       "id": "allergies",
