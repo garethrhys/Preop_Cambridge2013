@@ -14,7 +14,7 @@ function QuestionnaireController(questionnaire, $http, $location, $anchorScroll,
 angular.extend(QuestionnaireController.prototype, {
   
   nextQuestion: function() {
-    if (!this.questionnaire.validateCurrentQuestion()) return;
+    if (!this.questionnaire.answeredCurrentQuestion()) return;
 
     var question = this.questionnaire.findNextQuestion();
     if (question) {

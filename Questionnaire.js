@@ -14,8 +14,17 @@
 
   angular.extend(Questionnaire.prototype, {
    
-    validateCurrentQuestion: function() {
-      return !this.currentQuestion || this.currentQuestion.validate();
+    answeredCurrentQuestion: function() {
+      if (this.currentQuestion) {
+        if (this.currentQuestion.validate()) {
+          this.currentQuestion.answered = true;
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
+      }
     },
 
     findNextQuestion: function() {
@@ -23,6 +32,20 @@
       return this.questions
         .filter(function(q) { return !q.asked && q.isConditionMet(answers); })
         [0];
+    },
+
+    progress: function() {
+      var answeredQuestions = this.questions.filter(function(q) {
+        return q.answered;
+      });
+      // Number of answered questions + one more for the patient details.
+      var answeredCount = answeredQuestions.length + (this.currentQuestion ? 1 : 0);
+      // Count number of questions after the most recently asked question.
+      var indexOfMostRecent = (answeredQuestions.length > 0)
+        ? this.questions.indexOf(answeredQuestions[answeredQuestions.length - 1])
+        : 0;
+      var total = answeredCount + this.questions.length - indexOfMostRecent - 1;
+      return Math.floor((answeredCount / total) * 100);
     },
 
     answers: function() {

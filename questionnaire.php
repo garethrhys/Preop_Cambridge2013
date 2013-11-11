@@ -66,6 +66,12 @@ $questionnaire = file_get_contents('./questions.json');
         <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index "
              ng-form="questionForm"
              ng-include src="'question'" class="question"></div>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="{{qc.questionnaire.progress()}}" aria-valuemin="0" aria-valuemax="100" 
+               ng-style="{ width: qc.questionnaire.progress() + '%' }">
+            <span class="sr-only">qc.questionnaire.progress() + '%' Complete</span>
+          </div>
+        </div>
         <div class="form-group">
           <button class="btn btn-primary btn-lg center-block" ng-hide="qc.readyToSend" ng-click="qc.nextQuestion()">Next &raquo;</button>
         </div>
