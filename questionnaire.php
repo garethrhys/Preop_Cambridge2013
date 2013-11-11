@@ -63,9 +63,10 @@ $questionnaire = file_get_contents('./questions.json');
     </p>
       <form name="form" role="form" novalidate ng-hide="qc.sent">
         <div ng-include src="'patient-details'"></div>
-        <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index "
-             ng-form="questionForm"
-             ng-include src="'question'" class="question"></div>
+        <div ng-repeat="question in qc.questionnaire.questions | filter:qc.isAsked track by $index" class="question">
+          <div ng-form="questionForm"
+               ng-include src="'question'"></div>
+        </div>
         <div class="progress">
           <div class="progress-bar" role="progressbar" aria-valuenow="{{qc.questionnaire.progress()}}" aria-valuemin="0" aria-valuemax="100" 
                ng-style="{ width: qc.questionnaire.progress() + '%' }">
@@ -121,7 +122,7 @@ $questionnaire = file_get_contents('./questions.json');
         <div class="panel-heading">
           <h3 class="panel-title">{{question.text}}</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body" ng-hide="question.answered">
           <div class="form-group" ng-include src="question.type"></div>
           <div ng-if="question.errorMessage" class="alert alert-danger">{{question.errorMessage}}</div>
           <div class="form-group pull-right" ng-show="question.allowComments()">
@@ -134,6 +135,8 @@ $questionnaire = file_get_contents('./questions.json');
           <div class="form-group pull-right" ng-if="question.hasComments">
             <button class="btn btn-xs btn-default" ng-click="question.removeComments()">Remove comment</button>
           </div>
+        </div>
+        <div class="panel-body" ng-show="question.answered" ng-include="'answer'">
         </div>
         <div class="panel-footer text-muted" ng-if="question.hint">
           <i class="glyphicon glyphicon-info-sign"></i> <span ng-bind-html="question.hint | linky:'_blank'"></span>
@@ -176,6 +179,12 @@ $questionnaire = file_get_contents('./questions.json');
           {{option.text}}
         </label>
       </div>
+    </script>
+
+    <script id="answer" type="text/ng-template">
+      <p>{{question.answer}}</p>
+      <p ng-show="question.hasComments">{{question.comments}}</p>
+      <p><a href="javascript:void(0)" ng-click="qc.questionnaire.editQuestion(question)">Change answer</a></p>
     </script>
 
     <script id="send" type="text/ng-template">

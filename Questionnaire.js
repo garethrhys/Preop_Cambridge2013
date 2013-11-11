@@ -61,6 +61,17 @@
       this.currentQuestion = question;
     },
 
+    editQuestion: function(question) {
+      this.currentQuestion = question;
+      question.answered = false;
+      var index = this.questions.indexOf(question);
+      var laterQuestions = this.questions.slice(index + 1);
+      laterQuestions.forEach(function(q) {
+        q.asked = false;
+        q.answered = false;
+      });
+    },
+
     // TODO: locking of previous questions
     // unlocking a question to change it needs to "un-ask" subsequent questions
 
