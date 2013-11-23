@@ -120,7 +120,7 @@
     },
 
     allowComments: function() {
-      return this.type !== "text" && this.type !== "singleline-text";
+      return this.type !== "text" && this.type !== "singleline-text" && this.noComments !== true;
     },
 
     addComments: function() {
