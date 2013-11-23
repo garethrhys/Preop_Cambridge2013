@@ -7,10 +7,10 @@
       "type": "radiolist",
       "options": [
           {"text":"Female"},
-          {"text":"Male"},
-          {"text":"Transgender"}
+          {"text":"Male"}
         ],
-      "required": true
+      "required": true,
+      "noComments": true
     },
     {
       "id": "prev_op",
